@@ -4,6 +4,8 @@ import { Outlet } from "react-router-dom";
 import { Header, Navbar } from "./components/index.js";
 import { getCurrentLoggedInUser } from "./features/auth/authSlice.js";
 import { SplashScreen } from "./pages/index.js";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 function App() {
     const [showSplash, setShowSplash] = useState(true);
@@ -30,13 +32,17 @@ function App() {
     }
 
     return (
-        <div>
-            <Header />
-            <main>
-                <Outlet />
-            </main>
-            <Navbar />
-        </div>
+        <>
+            <div>
+                <Header />
+                <main>
+                    <Outlet />
+                </main>
+                <Navbar />
+            </div>
+            <Analytics />
+            <SpeedInsights />
+        </>
     );
 }
 
