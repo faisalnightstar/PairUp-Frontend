@@ -1,0 +1,54 @@
+import * as React from "react";
+const SVGComponent = (props) => (
+  <svg
+    width={800}
+    height={800}
+    viewBox="0 0 800 800"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <defs>
+      <style type="text/css">
+        {
+          "\n@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;400&display=swap');\n.blue { fill: #1E88E5; }\n      .orange { fill: #FFA726; }\n.navy { fill: #0D47A1; }\n      .text-bold { font-family: 'Poppins', sans-serif; font-weight: 600; }\n      .text-light { font-family: 'Poppins', sans-serif; font-weight: 400; }\n"
+        }
+        /* check error */
+      </style>
+    </defs>
+    <g transform="translate(50,50) scale(0.1, 0.1)">
+      <circle className="blue" cx={260} cy={260} r={50} />
+      <path
+        className="blue"
+        d="M260,310 a60,60 0 1,0 0.1,0 Z M260,370 a20,20 0 1,1 0,-0.1 Z"
+      />
+      <path className="blue" d="M160,400 q100,150 200,0 q-40,80 -200,0 Z" />
+    </g>
+    <g>
+      <circle className="orange" cx={540} cy={260} r={50} />
+      <path
+        className="orange"
+        d="M540,310 a60,60 0 1,0 0.1,0 Z M540,370 a20,20 0 1,1 0,-0.1 Z"
+      />
+      <path className="orange" d="M440,400 q100,150 200,0 q-40,80 -200,0 Z" />
+    </g>
+    <text
+      x="50%"
+      y={620}
+      className="text-bold navy"
+      fontSize={80}
+      textAnchor="middle"
+    >
+      {"\n    PAIR UP\n  "}
+    </text>
+    <text
+      x="50%"
+      y={690}
+      className="text-light navy"
+      fontSize={40}
+      textAnchor="middle"
+    >
+      {"\n    TRAVEL COMMUNITY\n  "}
+    </text>
+  </svg>
+);
+export default SVGComponent;
