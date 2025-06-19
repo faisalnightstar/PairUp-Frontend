@@ -39,9 +39,9 @@ function App() {
                     <Outlet />
                 </main>
                 <Navbar />
+                <Analytics />
+                <SpeedInsights />
             </div>
-            <Analytics />
-            <SpeedInsights />
         </>
     );
 }
