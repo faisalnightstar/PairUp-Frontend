@@ -1,6 +1,6 @@
-# PairUp-Frontend
+# PairUp
 
-PairUp-Frontend is a modern React-based web application for travelers to plan, share, and join trips with others. It features user authentication, trip posting, trip discovery, user profiles, reviews, and more. The project uses Redux Toolkit for state management, React Router for navigation, and Tailwind CSS for styling.
+PairUp is a comprehensive web application built with modern technologies to facilitate travel planning and social interaction among travelers. It allows users to authenticate seamlessly, create and share detailed trip itineraries, and explore trips posted by others. The platform features rich user profiles, enabling travelers to manage personal information, upload avatars, and review trip history. Users can also engage with the community by writing and viewing reviews. PairUp is powered by React for its dynamic user interface, Redux Toolkit for efficient state management, React Router for smooth client-side navigation, and Tailwind CSS for a responsive and visually appealing design. The application leverages geolocation to enhance trip planning by suggesting meeting points and locations.
 
 ---
 
@@ -74,27 +74,31 @@ PairUp-Frontend is a modern React-based web application for travelers to plan, s
 ### Installation
 
 1. **Clone the repository:**
-   ```sh
-   git clone https://github.com/yourusername/PairUp-Frontend.git
-   cd PairUp-Frontend
-   ```
+
+    ```sh
+    git clone https://github.com/yourusername/PairUp-Frontend.git
+    cd PairUp-Frontend
+    ```
 
 2. **Install dependencies:**
-   ```sh
-   npm install
-   # or
-   yarn install
-   ```
+
+    ```sh
+    npm install
+    # or
+    yarn install
+    ```
 
 3. **Set up environment variables:**
-   - Copy `.env.example` to `.env` and fill in the required values (see [Environment Variables](#environment-variables)).
+
+    - Copy `.env.example` to `.env` and fill in the required values (see [Environment Variables](#environment-variables)).
 
 4. **Start the development server:**
-   ```sh
-   npm run dev
-   # or
-   yarn dev
-   ```
+
+    ```sh
+    npm run dev
+    # or
+    yarn dev
+    ```
 
 5. **Open [http://localhost:5173](http://localhost:5173) in your browser.**
 
