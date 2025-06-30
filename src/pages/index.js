@@ -14,7 +14,7 @@ import ProfilesDetails from "./profile/ProfilesDetails";
 import UpdateProfilePicture from "./users/UpdateProfilePicture";
 import EditProfile from "./users/EditProfile";
 import ViewOtherUserDetails from "./viewDeatails/user/ViewOtherUserDetails";
-
+import SavedTrip from "./savedTrips/SavedTrip";
 export {
     Home,
     LoginPage,
@@ -30,4 +30,5 @@ export {
     GetStarted,
     EditProfile,
     ViewOtherUserDetails,
+    SavedTrip
 };

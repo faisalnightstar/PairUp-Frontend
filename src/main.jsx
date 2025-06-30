@@ -22,6 +22,7 @@ import {
     EditProfile,
     ViewPostDetails,
     ViewOtherUserDetails,
+    SavedTrip
 } from "./pages/index.js";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 //import LocationProvider from "./components/LocationProvider2.jsx";
@@ -106,6 +107,10 @@ const router = createBrowserRouter([
                 path: "/user/:username",
                 element: <ViewOtherUserDetails />,
             },
+            {
+                path: "/saved-trip",
+                element: <SavedTrip />
+            }
         ],
     },
 ]);

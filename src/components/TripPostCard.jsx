@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
     FaMapMarkerAlt,
     FaHeart,
@@ -24,6 +24,28 @@ const TripPostCard = ({ tripItem }) => {
             day: "2-digit",
             month: "short",
         }).format(date);
+    };
+    // State to track if this trip is saved
+    const [isSaved, setIsSaved] = useState(false);
+
+    useEffect(() => {
+        const saved = JSON.parse(localStorage.getItem("savedTripsItems")) || [];
+        setIsSaved(saved.some((t) => t._id === tripItem._id));
+    }, [tripItem?._id]);
+
+    // Toggle save/remove trip in localStorage when heart button is clicked
+    const savedTrips = () => {
+        const saved = JSON.parse(localStorage.getItem("savedTripsItems")) || [];
+        const alreadySaved = saved.some((t) => t._id === tripItem._id);
+        if (!alreadySaved) {
+            const updated = [...saved, tripItem];
+            localStorage.setItem("savedTripsItems", JSON.stringify(updated));
+            setIsSaved(true);
+        } else {
+            const updated = saved.filter((t) => t._id !== tripItem._id);
+            localStorage.setItem("savedTripsItems", JSON.stringify(updated));
+            setIsSaved(false);
+        }
     };
     const tripEndDate = (isoDate) => {
         if (!isoDate) return "N/A";
@@ -81,7 +103,12 @@ const TripPostCard = ({ tripItem }) => {
                             {tripItem?.description}
                         </p>
                     </div>
-                    <button className="!rounded-button text-fonts-color p-2 hover:text-button-color hover:cursor-pointer">
+                    <button
+                        onClick={savedTrips}
+                        className={`!rounded-button p-2 hover:text-button-color hover:cursor-pointer ${isSaved ? 'text-button-color' : 'text-fonts-color'}`}
+                        title={isSaved ? "Trip saved" : "Save trip"}
+                        aria-pressed={isSaved}
+                    >
                         <FaHeart />
                     </button>
                 </div>
@@ -96,4 +123,13 @@ const TripPostCard = ({ tripItem }) => {
     );
 };
 
-export default TripPostCard;
+export default TripPostCard; const savedTrips = () => {
+    // Get existing saved trips from localStorage
+    const saved = JSON.parse(localStorage.getItem("savedTripsItems")) || [];
+    // Check if this trip is already saved (by _id)
+    const alreadySaved = saved.some((t) => t._id === tripItem._id);
+    if (!alreadySaved) {
+        const updated = [...saved, tripItem];
+        localStorage.setItem("savedTripsItems", JSON.stringify(updated));
+    }
+};

@@ -3,12 +3,19 @@ import { FaSearch, FaFilter } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import LogoutBtn from "./LogoutBtn";
 import LoginBtn from "./LoginBtn";
+
+import { useNavigate } from "react-router-dom";
+
+
 const Header = () => {
+    const navigate = useNavigate();
     const [showSearch, setShowSearch] = useState(false);
 
     const { isAuthenticated } = useSelector((state) => state.auth);
     console.log("isAuthenticated: ", isAuthenticated);
-
+    const savedTripItems = () => {
+        navigate("/saved-trip")
+    }
     return (
         <header className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50 px-2 sm:px-0 md:px-1">
             <div className="max-w-8xl mx-auto">
@@ -29,7 +36,10 @@ const Header = () => {
                     {/* Search & Filter Buttons (Right on small screens) */}
                     <div className="flex items-center space-x-4 flex-grow justify-end">
                         <div className="relative">
-                            <p className="absolute bg-gray-100 cursor-pointer p-1 rounded-full text-center top-[-11px] right-0 text-xs text-gray-600">
+                            <p
+                                onClick={savedTripItems}
+                                className="absolute bg-gray-100 cursor-pointer p-1 rounded-full text-center top-[-11px] right-0 text-xs text-gray-600">
+
                                 Saved
                             </p>
                         </div>
