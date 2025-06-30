@@ -22,12 +22,14 @@ import {
     EditProfile,
     ViewPostDetails,
     ViewOtherUserDetails,
-    SavedTrip
+    SavedTrip,
 } from "./pages/index.js";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 //import LocationProvider from "./components/LocationProvider2.jsx";
 import { LocationProvider } from "./components/LocationProvider.jsx";
 import { meetingPoint } from "./pages/viewDeatails/trip/DetailSection.jsx";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 const router = createBrowserRouter([
     {
@@ -109,8 +111,8 @@ const router = createBrowserRouter([
             },
             {
                 path: "/saved-trip",
-                element: <SavedTrip />
-            }
+                element: <SavedTrip />,
+            },
         ],
     },
 ]);
@@ -121,6 +123,8 @@ createRoot(document.getElementById("root")).render(
             {/* <PersistGate loading={null} persistor={persistor}> */}
             <LocationProvider>
                 <RouterProvider router={router} />
+                <Analytics />
+                <SpeedInsights />
             </LocationProvider>
             {/* </PersistGate> */}
         </Provider>
