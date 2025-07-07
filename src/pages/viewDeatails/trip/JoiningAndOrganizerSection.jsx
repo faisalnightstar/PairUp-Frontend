@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FaExclamationCircle, FaRupeeSign, FaStar } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -27,11 +27,10 @@ const JoiningAndOrganizerSection = ({ tripEndDate }) => {
 
     //console.log("user in JoiningAndOrganizerSection: ", user);
 
-    const handleJoinTrip = async () => {
+    const handleJoinTrip = useCallback(async () => {
         try {
-            const response = dispatch(joinTrip(selectedTrip._id));
-
-            //console.log("response: ", response);
+            await dispatch(joinTrip(selectedTrip._id)).unwrap();
+            setIsJoined(true);
         } catch (error) {
             if (error.response?.status === 401) {
                 alert("You have already joined this trip.");
@@ -41,7 +40,8 @@ const JoiningAndOrganizerSection = ({ tripEndDate }) => {
                 alert("Failed to join trip. Please try again.");
             }
         }
-    };
+    }, [dispatch, selectedTrip._id]);
+
     useEffect(() => {
         if (selectedTrip && user) {
             setIsJoined(
@@ -51,7 +51,7 @@ const JoiningAndOrganizerSection = ({ tripEndDate }) => {
             );
             setIsOrganizer(selectedTrip.organizer?.username === user?.username);
         }
-    }, [selectedTrip, user, handleJoinTrip, setIsJoined, setIsOrganizer]);
+    }, [selectedTrip, user]);
     // console.log(
     //     "tripDetails",
     //     selectedTrip,

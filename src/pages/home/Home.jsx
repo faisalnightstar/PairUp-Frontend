@@ -1,6 +1,6 @@
-import React, { use, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { Loader } from "../../components";
+import { Loader, Categories, TripsCategories } from "../../components";
 import { allTrips } from "../../features/trip/tripSlice";
 import { createSelector } from "@reduxjs/toolkit";
 import TripPostCard from "../../components/TripPostCard";
@@ -34,7 +34,7 @@ const Home = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (!trip || trip?.length === 0) {
-                const response = dispatch(
+                const response = await dispatch(
                     allTrips({
                         lat: location.latitude,
                         lng: location.longitude,
@@ -46,7 +46,7 @@ const Home = () => {
         };
 
         fetchData();
-    }, [dispatch, trip]);
+    }, [dispatch, trip, location.latitude, location.longitude, location]);
 
     if (loading) return <Loader />;
     if (error) return <p className="text-red-500">Error: {error}</p>;
@@ -58,10 +58,14 @@ const Home = () => {
         <>
             <main className="flex-grow mt-20 mb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-6">
                 <div className="flex space-y-1 flex-col mb-2">
+                    <div className="bg-red-600 rounded-xl shadow p-4 gap-4 flex flex-col">
+                        <Categories />
+                        <TripsCategories trip={trip} />
+                    </div>
                     <h1 className="text-xl md:text-2xl font-bold text-header-color">
                         Discover Best Trips Near You!
                     </h1>
-                    <p className="font-roboto text-sm w-3/4 text-center text-paragraph-color">
+                    <p className="font-roboto text-sm w-3/4  text-paragraph-color">
                         Explore amazing travel experiences curated just for you.
                         Join fellow travelers on exciting adventures across
                         India's most beautiful destinations. From beach escapes

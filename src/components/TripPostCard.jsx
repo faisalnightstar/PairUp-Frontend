@@ -47,6 +47,7 @@ const TripPostCard = ({ tripItem }) => {
             setIsSaved(false);
         }
     };
+
     const tripEndDate = (isoDate) => {
         if (!isoDate) return "N/A";
         const date = new Date(isoDate);
@@ -71,7 +72,7 @@ const TripPostCard = ({ tripItem }) => {
     // };
 
     return (
-        <div className="bg-white rounded-xl shadow-sm p-4 hover:shadow-md w-96 h-96 transition-shadow">
+        <div className="bg-white rounded-xl shadow-sm p-4  hover:border-2 hover:border-button-color w-96 h-96 transition-all duration-500 ease-linear">
             <img
                 src={
                     tripItem?.coverImage
@@ -105,7 +106,7 @@ const TripPostCard = ({ tripItem }) => {
                     </div>
                     <button
                         onClick={savedTrips}
-                        className={`!rounded-button p-2 hover:text-button-color hover:cursor-pointer ${isSaved ? 'text-button-color' : 'text-fonts-color'}`}
+                        className={`!rounded-button p-2 hover:text-button-color hover:cursor-pointer ${isSaved ? "text-button-color" : "text-fonts-color"}`}
                         title={isSaved ? "Trip saved" : "Save trip"}
                         aria-pressed={isSaved}
                     >
@@ -123,13 +124,4 @@ const TripPostCard = ({ tripItem }) => {
     );
 };
 
-export default TripPostCard; const savedTrips = () => {
-    // Get existing saved trips from localStorage
-    const saved = JSON.parse(localStorage.getItem("savedTripsItems")) || [];
-    // Check if this trip is already saved (by _id)
-    const alreadySaved = saved.some((t) => t._id === tripItem._id);
-    if (!alreadySaved) {
-        const updated = [...saved, tripItem];
-        localStorage.setItem("savedTripsItems", JSON.stringify(updated));
-    }
-};
+export default TripPostCard;

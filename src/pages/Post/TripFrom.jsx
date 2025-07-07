@@ -89,7 +89,7 @@ const TripForm = () => {
                             className="text-button-color"
                             size={28}
                         />
-                        <h1 className="text-xl md:text-2xl lg:text-3xl text-center font-bold font-roboto text-heading-color">
+                        <h1 className="text-xl md:text-2xl lg:text-3xl text-center font-bold font-roboto text-header-color">
                             Plan Your Trip
                         </h1>
                     </div>

@@ -8,22 +8,28 @@ import "./index.css";
 import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import {
-    Discover,
-    Home,
-    LoginPage,
-    MessagePage,
-    ProfilesDetails,
-    RegisterPage,
-    TripForm,
-    UserProfile,
-    UpdateProfilePicture,
-    GetStarted,
-    EditProfile,
-    ViewPostDetails,
-    ViewOtherUserDetails,
-    SavedTrip,
-} from "./pages/index.js";
+import { lazy, Suspense } from "react";
+
+const Discover = lazy(() => import("./pages/discover/Discover"));
+const Home = lazy(() => import("./pages/home/Home"));
+const LoginPage = lazy(() => import("./pages/auth/LoginForm.jsx"));
+const MessagePage = lazy(() => import("./pages/message/MessagePage.jsx"));
+const ProfilesDetails = lazy(() => import("./pages/profile/ProfilesDetails"));
+const RegisterPage = lazy(() => import("./pages/auth/RegisterPage"));
+const TripForm = lazy(() => import("./pages/Post/TripForm"));
+const UserProfile = lazy(() => import("./pages/users/UserProfile"));
+const UpdateProfilePicture = lazy(
+    () => import("./pages/users/UpdateProfilePicture")
+);
+const GetStarted = lazy(() => import("./pages/getStarted/GetStarted"));
+const EditProfile = lazy(() => import("./pages/users/EditProfile"));
+const ViewPostDetails = lazy(
+    () => import("./pages/viewDeatails/trip/ViewPostDetails")
+);
+const ViewOtherUserDetails = lazy(
+    () => import("./pages/users/ViewOtherUserDetails.jsx")
+);
+const SavedTrip = lazy(() => import("./pages/savedTrips/SavedTrip.jsx"));
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 //import LocationProvider from "./components/LocationProvider2.jsx";
 import { LocationProvider } from "./components/LocationProvider.jsx";
@@ -122,7 +128,9 @@ createRoot(document.getElementById("root")).render(
         <Provider store={store}>
             {/* <PersistGate loading={null} persistor={persistor}> */}
             <LocationProvider>
-                <RouterProvider router={router} />
+                <Suspense fallback={<div>Loading...</div>}>
+                    <RouterProvider router={router} />
+                </Suspense>
                 <Analytics />
                 <SpeedInsights />
             </LocationProvider>

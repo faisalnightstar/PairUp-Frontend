@@ -8,6 +8,8 @@ import Container from "./container/Container";
 import Loader from "./loader/Loader";
 import Header from "./Header";
 import TripPostCard from "./TripPostCard";
+import Categories from "./categories/Categories";
+import TripsCategories from "./categories/TripsCategories";
 
 export {
     Input,
@@ -20,4 +22,6 @@ export {
     Loader,
     Header,
     TripPostCard,
+    Categories,
+    TripsCategories,
 };
