@@ -36,6 +36,7 @@ import { LocationProvider } from "./components/LocationProvider.jsx";
 import { meetingPoint } from "./pages/viewDeatails/trip/DetailSection.jsx";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Loader } from "./components/index.js";
 
 const router = createBrowserRouter([
     {
@@ -128,7 +129,7 @@ createRoot(document.getElementById("root")).render(
         <Provider store={store}>
             {/* <PersistGate loading={null} persistor={persistor}> */}
             <LocationProvider>
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={<Loader />}>
                     <RouterProvider router={router} />
                 </Suspense>
                 <Analytics />
