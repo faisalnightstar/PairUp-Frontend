@@ -1,5 +1,5 @@
 import axios from "../../../axiosConfig.js";
-import envConfig from "../../../conf/envConfiq";
+import envConfig from "../../../conf/envConfiq.js";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //axios.defaults.withCredentials = true;
