@@ -62,10 +62,10 @@ const Home = () => {
                         <Categories />
                         <TripsCategories trip={trip} />
                     </div>
-                    <h1 className="text-xl md:text-2xl font-bold text-header-color">
+                    <h1 className="text-l md:text-2xl font-bold text-header-color">
                         Discover Best Trips Near You!
                     </h1>
-                    <p className="font-roboto text-sm w-3/4  text-paragraph-color">
+                    <p className="font-roboto text-sm md:w-3/4 md:text-base text-start text-paragraph-color">
                         Explore amazing travel experiences curated just for you.
                         Join fellow travelers on exciting adventures across
                         India's most beautiful destinations. From beach escapes
@@ -73,7 +73,7 @@ const Home = () => {
                     </p>
                 </div>
                 {error && <p className="text-red-500">{error}</p>}
-                <div className="grid grid-cols-1 place-items-center md:grid-cols-2 lg:grid-cols-3  gap-10">
+                <div className="grid grid-cols-1 place-items-center content-center md:grid-cols-2 lg:grid-cols-3  gap-5">
                     {trip &&
                         // Sort by participants count order and limit to top-6
                         trip.map((tripItem) => (

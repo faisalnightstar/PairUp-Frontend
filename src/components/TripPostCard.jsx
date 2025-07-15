@@ -72,7 +72,7 @@ const TripPostCard = ({ tripItem }) => {
     // };
 
     return (
-        <div className="bg-white rounded-xl shadow-sm p-4  hover:border-2 hover:border-button-color w-96 h-96 transition-all duration-500 ease-linear">
+        <div className=" bg-white flex flex-col items-center justify-center w-[100%] rounded-xl shadow-sm p-2 hover:border-2 hover:border-button-color h-96 transition-all duration-100 ease-linear">
             <img
                 src={
                     tripItem?.coverImage
