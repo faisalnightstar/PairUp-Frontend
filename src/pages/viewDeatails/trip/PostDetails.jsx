@@ -8,10 +8,10 @@ import {
     FaExclamationCircle,
     FaRupeeSign,
 } from "react-icons/fa";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import Loader from "../../components/Loader";
-import envConfig from "../../../confiq/envConfiq";
+import envConfig from "../../../../conf/envConfiq";
 
 const PostDetails = () => {
     const { tripId } = useParams();

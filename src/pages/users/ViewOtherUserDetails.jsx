@@ -1,6 +1,4 @@
-import envConfig from "../../../confiq/envConfiq";
-//import React, { useEffect, useState } from "react";
-import { GetUserByUsername } from "../../api/GetUserByUsername";
+import envConfig from "../../../conf/envConfiq";
 import { useParams } from "react-router-dom";
 
 import React, { useEffect, useState } from "react";
@@ -9,11 +7,9 @@ import UserTripsDetails from "./UserTripsDetails";
 import UserReviewsDeatils from "./UserReviewsDeatils";
 import Navbar from "../Navbar/Navbar";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import YourProfile from "./YourProfile";
 import NullTrips from "./NullTrips";
 import Loader from "../../components/Loader";
-import { Link } from "react-router-dom";
 
 const ViewOtherUserDetails = () => {
     const { username } = useParams();
