@@ -5,9 +5,6 @@ import { useParams } from "react-router-dom";
 
 import React, { useEffect, useState } from "react";
 import UserDetails from "./UserDetails";
-//import cookies from "js-cookie";
-import cookieParser from "cookie-parser";
-import Cookies from "js-cookie";
 import UserTripsDetails from "./UserTripsDetails";
 import UserReviewsDeatils from "./UserReviewsDeatils";
 import Navbar from "../Navbar/Navbar";
