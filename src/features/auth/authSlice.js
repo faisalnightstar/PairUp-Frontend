@@ -18,7 +18,11 @@ export const registerUser = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Registration failed";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );
@@ -36,7 +40,11 @@ export const loginUser = createAsyncThunk(
 
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Login failed";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );
@@ -52,7 +60,11 @@ export const getCurrentLoggedInUser = createAsyncThunk(
 
             return response.data.data; // Returns an object like { user: { ... } }
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Failed to fetch user";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );
@@ -74,9 +86,12 @@ export const refreshAccessToken = createAsyncThunk(
             return response;
         } catch (error) {
             if (error.response) {
-                return rejectWithValue(error.response.data);
+                const errorMessage = error.response.data?.message || 
+                                   error.response.data || 
+                                   "Token refresh failed";
+                return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
             } else {
-                return rejectWithValue(error.message);
+                return rejectWithValue(error.message || "Token refresh failed");
             }
         }
     }
@@ -92,7 +107,11 @@ export const logoutUser = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Logout failed";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );
@@ -108,7 +127,11 @@ export const updateUserAvatar = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Failed to update avatar";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );
@@ -125,7 +148,11 @@ export const updateProfileDetails = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Failed to update profile";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );

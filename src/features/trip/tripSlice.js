@@ -21,7 +21,11 @@ export const createTrip = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            rejectWithValue(error.response.data);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Failed to create trip";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );
@@ -41,7 +45,11 @@ export const allTrips = createAsyncThunk(
             );
             return response.data.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Failed to fetch trips";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );
@@ -55,7 +63,11 @@ export const singleTrip = createAsyncThunk(
             );
             return response.data.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Failed to fetch trip details";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );
@@ -104,7 +116,11 @@ export const tripsHistory = createAsyncThunk(
             );
             return response;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Failed to fetch trip history";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );

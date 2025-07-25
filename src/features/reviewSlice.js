@@ -20,13 +20,14 @@ export const createReview = createAsyncThunk(
         } catch (error) {
             console.error("Error in createReview thunk:", error);
             if (error.response && error.response.data) {
-                return rejectWithValue(error.response.data); // Return API error
+                const errorMessage = error.response.data.message || 
+                                   JSON.stringify(error.response.data) || 
+                                   "Failed to create review";
+                return rejectWithValue(errorMessage);
             } else {
-                return rejectWithValue({
-                    message:
-                        error.message ||
-                        "Network error: Failed to create review",
-                }); // Return network error
+                return rejectWithValue(
+                    error.message || "Network error: Failed to create review"
+                );
             }
         }
     }
@@ -46,7 +47,11 @@ export const fetchReviews = createAsyncThunk(
             return response.data.data;
         } catch (error) {
             //console.error("Error in getReviews thunk:", error);
-            return rejectWithValue(error.response?.data || error.message);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Failed to fetch reviews";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );

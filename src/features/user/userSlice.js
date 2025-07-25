@@ -19,7 +19,11 @@ export const otherUser = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            rejectWithValue(error.response.data);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Failed to fetch user";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );
