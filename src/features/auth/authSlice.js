@@ -65,6 +65,7 @@ export const refreshAccessToken = createAsyncThunk(
             console.log("Refreshing aceess token...");
             const response = await axios.post(
                 `${envConfig.BaseUrl}/users/refresh-token`,
+                {}, // Empty body since refresh token should be in cookies
                 {
                     withCredentials: true,
                 }

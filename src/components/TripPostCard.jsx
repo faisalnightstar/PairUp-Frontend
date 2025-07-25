@@ -59,9 +59,7 @@ const TripPostCard = ({ tripItem }) => {
     };
 
     const handleUserClick = (tripId) => {
-        const basePath = location.pathname.startsWith(
-            "http://localhost:5173/discover"
-        )
+        const basePath = location.pathname.startsWith("/discover")
             ? "/discover"
             : "";
 

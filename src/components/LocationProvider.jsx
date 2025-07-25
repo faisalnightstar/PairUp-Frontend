@@ -14,6 +14,9 @@ export const LocationProvider = ({ children }) => {
     });
 
     useEffect(() => {
+        // Only get location if we don't have it stored
+        if (location) return;
+
         const updateLocation = async (position) => {
             const newLocation = {
                 latitude: position.coords.latitude,
@@ -22,35 +25,50 @@ export const LocationProvider = ({ children }) => {
             setLocation(newLocation);
             localStorage.setItem("userLocation", JSON.stringify(newLocation));
 
-            // Reverse geocoding using OpenStreetMap's Nominatim API
+            // Reverse geocoding using OpenStreetMap's Nominatim API with rate limiting
             try {
                 const response = await fetch(
-                    `https://nominatim.openstreetmap.org/reverse?lat=${newLocation.latitude}&lon=${newLocation.longitude}&format=json`
+                    `https://nominatim.openstreetmap.org/reverse?lat=${newLocation.latitude}&lon=${newLocation.longitude}&format=json`,
+                    {
+                        headers: {
+                            'User-Agent': 'PairUp-Frontend/1.0'
+                        }
+                    }
                 );
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 const data = await response.json();
-                // Extract a human-readable address from the response.
-                // data.display_name often provides a full address string.
-                const userAddress = data.display_name;
+                const userAddress = data.display_name || 'Address not found';
                 setAddress(userAddress);
                 localStorage.setItem("userAddress", userAddress);
             } catch (error) {
                 console.error("Error fetching address:", error);
+                setAddress("Unable to get address");
             }
         };
 
         const handleError = (error) => {
             console.error("Error getting location:", error);
+            // Set default values on error
+            setLocation(null);
+            setAddress("Location access denied");
         };
 
-        // Use watchPosition to continuously monitor location changes
-        const watchId = navigator.geolocation.watchPosition(
+        // Use getCurrentPosition instead of watchPosition for one-time location fetch
+        // Only use high accuracy if needed, and add timeout
+        navigator.geolocation.getCurrentPosition(
             updateLocation,
             handleError,
-            { enableHighAccuracy: true }
+            { 
+                enableHighAccuracy: false,
+                timeout: 10000,
+                maximumAge: 300000 // Cache for 5 minutes
+            }
         );
-
-        return () => navigator.geolocation.clearWatch(watchId);
-    }, []);
+    }, [location]);
 
     return (
         <LocationContext.Provider value={{ location, address }}>
