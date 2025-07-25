@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { Header, Navbar } from "./components/index.js";
-import { getCurrentLoggedInUser } from "./features/auth/authSlice.js";
+import { 
+    getCurrentLoggedInUser, 
+    refreshAccessToken 
+} from "./features/auth/authSlice.js";
 import { SplashScreen } from "./pages/index.js";
 
 function App() {
     const [showSplash, setShowSplash] = useState(true);
     const dispatch = useDispatch();
+    const { isAuthenticated, initialized } = useSelector((state) => state.auth);
 
     useEffect(() => {
         const splashShown = localStorage.getItem("splashScreenShown");
@@ -21,9 +25,29 @@ function App() {
             }, 3000); // 3 seconds (adjust as needed)
         }
 
-        // Fetch authenticated user on app load
-        dispatch(getCurrentLoggedInUser());
-    }, [dispatch]);
+        // Initialize authentication on app load
+        const initAuth = async () => {
+            try {
+                // First try to get current user (this will work if cookies are valid)
+                await dispatch(getCurrentLoggedInUser()).unwrap();
+            } catch (error) {
+                // If getCurrentLoggedInUser fails, try to refresh the token
+                try {
+                    await dispatch(refreshAccessToken()).unwrap();
+                    // If refresh succeeds, try to get user again
+                    await dispatch(getCurrentLoggedInUser()).unwrap();
+                } catch (refreshError) {
+                    // Both failed, user is not authenticated
+                    console.log("User not authenticated on app load");
+                }
+            }
+        };
+
+        // Only initialize auth if not already initialized (prevents duplicate calls)
+        if (!initialized) {
+            initAuth();
+        }
+    }, [dispatch, initialized]);
 
     if (showSplash) {
         return <SplashScreen />; // Render the splash screen component

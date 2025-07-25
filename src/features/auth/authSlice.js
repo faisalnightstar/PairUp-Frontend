@@ -156,6 +156,10 @@ const authSlice = createSlice({
             state.accessToken = null;
             state.refreshToken = null;
             state.error = null;
+            state.status = false;
+            state.isAuthenticated = false;
+            state.initialized = true; // Keep initialized true to prevent re-initialization
+            state.loading = false;
         },
         setAuthenticated(state, action) {
             state.isAuthenticated = action.payload;
