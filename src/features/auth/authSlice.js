@@ -18,7 +18,11 @@ export const registerUser = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Registration failed";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );
@@ -36,7 +40,11 @@ export const loginUser = createAsyncThunk(
 
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Login failed";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );
@@ -52,7 +60,11 @@ export const getCurrentLoggedInUser = createAsyncThunk(
 
             return response.data.data; // Returns an object like { user: { ... } }
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Failed to fetch user";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );
@@ -65,6 +77,7 @@ export const refreshAccessToken = createAsyncThunk(
             console.log("Refreshing aceess token...");
             const response = await axios.post(
                 `${envConfig.BaseUrl}/users/refresh-token`,
+                {}, // Empty body since refresh token should be in cookies
                 {
                     withCredentials: true,
                 }
@@ -73,9 +86,12 @@ export const refreshAccessToken = createAsyncThunk(
             return response;
         } catch (error) {
             if (error.response) {
-                return rejectWithValue(error.response.data);
+                const errorMessage = error.response.data?.message || 
+                                   error.response.data || 
+                                   "Token refresh failed";
+                return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
             } else {
-                return rejectWithValue(error.message);
+                return rejectWithValue(error.message || "Token refresh failed");
             }
         }
     }
@@ -91,7 +107,11 @@ export const logoutUser = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Logout failed";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );
@@ -107,7 +127,11 @@ export const updateUserAvatar = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Failed to update avatar";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );
@@ -124,7 +148,11 @@ export const updateProfileDetails = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Failed to update profile";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );
@@ -155,6 +183,10 @@ const authSlice = createSlice({
             state.accessToken = null;
             state.refreshToken = null;
             state.error = null;
+            state.status = false;
+            state.isAuthenticated = false;
+            state.initialized = true; // Keep initialized true to prevent re-initialization
+            state.loading = false;
         },
         setAuthenticated(state, action) {
             state.isAuthenticated = action.payload;

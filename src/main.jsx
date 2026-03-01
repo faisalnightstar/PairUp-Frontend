@@ -3,7 +3,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import store from "./store/store.js";
+import store, { persistor } from "./store/store.js";
 import "./index.css";
 import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -127,15 +127,15 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
     <StrictMode>
         <Provider store={store}>
-            {/* <PersistGate loading={null} persistor={persistor}> */}
-            <LocationProvider>
-                <Suspense fallback={<Loader />}>
-                    <RouterProvider router={router} />
-                </Suspense>
-                <Analytics />
-                <SpeedInsights />
-            </LocationProvider>
-            {/* </PersistGate> */}
+            <PersistGate loading={<Loader />} persistor={persistor}>
+                <LocationProvider>
+                    <Suspense fallback={<Loader />}>
+                        <RouterProvider router={router} />
+                    </Suspense>
+                    <Analytics />
+                    <SpeedInsights />
+                </LocationProvider>
+            </PersistGate>
         </Provider>
     </StrictMode>
 );

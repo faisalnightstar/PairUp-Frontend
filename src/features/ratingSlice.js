@@ -17,8 +17,12 @@ export const fetchRating = createAsyncThunk(
             );
             return response.data.data;
         } catch (error) {
-            //console.error("Error in getReviews thunk:", error);
-            return rejectWithValue(error.response?.data || error.message);
+            //console.error("Error in getRatings thunk:", error);
+            const errorMessage = error.response?.data?.message || 
+                               error.response?.data || 
+                               error.message || 
+                               "Failed to fetch ratings";
+            return rejectWithValue(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
         }
     }
 );

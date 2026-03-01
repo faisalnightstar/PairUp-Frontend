@@ -40,7 +40,7 @@ axiosInstance.interceptors.response.use(
                 }
             } catch (err) {
                 console.error("Failed to refresh access token", err);
-                //       store.dispatch(clearAuthState()); // Log out user if refresh fails
+                store.dispatch(clearAuthState()); // Log out user if refresh fails
                 return Promise.reject(err);
             }
         }

@@ -5,11 +5,11 @@ import React, { useEffect, useState } from "react";
 import UserDetails from "./UserDetails";
 import UserTripsDetails from "./UserTripsDetails";
 import UserReviewsDeatils from "./UserReviewsDeatils";
-import Navbar from "../Navbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import axios from "axios";
 import YourProfile from "./YourProfile";
 import NullTrips from "./NullTrips";
-import Loader from "../../components/Loader";
+import Loader from "../../components/loader/Loader";
 
 const ViewOtherUserDetails = () => {
     const { username } = useParams();
