@@ -1,37 +1,48 @@
-// src/components/LocationProvider.jsx
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setLocation, setLocationError } from "../features/locationSlice.js";
+// components/LocationProvider.jsx
 
-const LocationProvider = ({ children }) => {
-    const dispatch = useDispatch();
+import { createContext, useEffect, useState } from "react";
 
+const LocationContext = createContext();
+
+export const LocationProvider = ({ children }) => {
+    const [location, setLocation] = useState(() => {
+        const stored = localStorage.getItem("userLocation");
+        return stored ? JSON.parse(stored) : null;
+    });
+
+    const [address, setAddress] = useState(() => {
+        const stored = localStorage.getItem("userAddress");
+        return stored ? stored : null;
+    });
+    console.log("address in location provider2: ", address);
+
+    const [error, setError] = useState(null);
+
+    // Optionally auto-detect user location on first load
     useEffect(() => {
-        if (navigator.geolocation) {
+        if (!location && "geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    dispatch(
-                        setLocation({
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude,
-                        })
+                (pos) => {
+                    const coords = {
+                        latitude: pos.coords.latitude,
+                        longitude: pos.coords.longitude,
+                    };
+                    setLocation(coords);
+                    localStorage.setItem(
+                        "userLocation",
+                        JSON.stringify(coords)
                     );
                 },
-                (error) => {
-                    console.error("Error getting location:", error);
-                    dispatch(setLocationError(error.message));
-                }
-            );
-        } else {
-            dispatch(
-                setLocationError(
-                    "Geolocation is not supported by your browser."
-                )
+                (err) => setError(err.message)
             );
         }
-    }, [dispatch]);
+    }, [location]);
 
-    return <>{children}</>;
+    return (
+        <LocationContext.Provider value={{ location, setLocation, error, address, setAddress }}>
+            {children}
+        </LocationContext.Provider>
+    );
 };
 
-export default LocationProvider;
+export { LocationContext };

@@ -36,7 +36,10 @@ const ViewPostDetails = () => {
     if (loading || !selectedTrip) return <Loader />;
     if (error) {
         return (
-            <p className="text-red-500 mt-36">Something went wrong: {error}</p>
+            <p className="text-red-500 mt-36">
+                Something went wrong:{" "}
+                {error.message || "Failed to fetch trip details."}
+            </p>
         );
     }
     // Rendering the trip details

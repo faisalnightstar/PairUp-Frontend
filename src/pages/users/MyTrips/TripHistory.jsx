@@ -86,7 +86,9 @@ const TripHistory = ({ userId }) => {
             </div>
 
             {isLoading && <p>Loading trips...</p>}
-            {error && <p className="text-red-500">{error}</p>}
+            {error && (
+                <p className="text-red-500">{error.message || "Error"}</p>
+            )}
 
             {/* Organized Trips */}
             <h3 className="text-xl font-semibold mt-6">

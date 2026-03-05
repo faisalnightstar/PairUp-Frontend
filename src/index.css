@@ -1,33 +1,111 @@
-/* Poppins font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+/* Poppins and Roboto Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
+/* Custom Font Definition */
+
+@font-face {
+  font-family: Tesla;
+  font-style: normal;
+  font-weight: 200 700;
+  font-display: swap;
+  src: url(./assets/fonts/TESLA.ttf) format('truetype');
+}
+
+/* Tailwind CSS v4 Integration */
 @import "tailwindcss";
 
-body {
-    font-family: var(--font-poppins);
-    background-color: var(--color-background);
-    opacity: 1;
-    background: #F9FAFB;
-}
+@custom-variant dark (&:where(.dark, .dark *));
+/*
+  ==========================================================================
+  Design System Foundation (CSS Custom Properties)
+  ==========================================================================
+*/
 :root {
-    --font-poppins: Poppins, sans-serif;
-    --font-roboto: Roboto, sans-serif;
-    --color-button-color: #F79489; 
-    --color-background: #F9FAFB;
-    --color-review-card-bg: #F9FAFB;
+  /* Font Family Roles */
+  --font-poppins: 'Poppins', sans-serif;
+  --font-roboto: 'Roboto', sans-serif;
+  --font-logo: 'LogoFont', sans-serif; /* Added a fallback font */
+
+  /* Light Theme (Default) */
+    --color-background: #F2F2F2;
+  --color-primary: #B6B09F;
+  --color-secondary: #EAE4D5;
+  --color-accent: #D4C4A3;
+  --color-surface: #FFFFFF;
+  --color-text-primary: #000000;
+  --color-text-secondary: #333333;
+  --color-text-muted: #B6B09F;
+  --color-on-primary: #FFFFFF;
+  --color-on-secondary: #000000; 
 }
+
+.dark:root {
+  /*
+    --------------------------------
+    Dark Theme
+    --------------------------------
+  */
+    --color-background: #000000;
+ --color-primary: #00ADB5;
+  --color-secondary: #393E46;
+  --color-accent: #00C4D6;
+  --color-surface: #393E46;
+  --color-text-primary: #EEEEEE;
+  --color-text-secondary: #CCCCCC;
+  --color-text-muted: #888888;
+  --color-on-primary: #222831;
+  --color-on-secondary: #EEEEEE; 
+}
+
 
 
 
 @theme {
-    --font-poppins: Poppins, sans-serif;
-    --font-roboto: Roboto, sans-serif;
-    --color-button-color: #F79489;
-    --color-button-color-hover: #F8AFA6;
-    --color-background: #F9FAFB;
-    --color-profile-details: #4B5563;
-    --color-rating-star: #FACC15;
-    --color-paragraph-color: #6B7280;
-    --color-header-color: #111827;
-    --color-btn-bg-color: #FADCD9;
+  /* 
+  --------------------------------  
+      Light Theme (Default)
+  --------------------------------
+   */
+  --color-primary: #B6B09F;
+  --color-secondary: #EAE4D5;
+  --color-accent: #D4C4A3;
+  --color-background: #F2F2F2;
+  --color-surface: #FFFFFF;
+  --color-text-primary: #000000;
+  --color-text-secondary: #333333;
+  --color-text-muted: #B6B09F;
+  --color-on-primary: #FFFFFF;
+  --color-on-secondary: #000000;
+  /*
+    --------------------------------
+    Dark Theme
+    --------------------------------
+  */
+  --color-primary-dark: #00ADB5;
+  --color-secondary-dark: #393E46;
+  --color-accent-dark: #00C4D6;
+  --color-background-dark: #36454F;
+  --color-surface-dark: #393E46;
+  --color-text-primary-dark: #EEEEEE;
+  --color-text-secondary-dark: #CCCCCC;
+  --color-text-muted-dark: #888888;
+  --color-on-primary-dark: #222831;
+  --color-on-secondary-dark: #EEEEEE;
+
+  --font-tesla: Tesla, sans-serif;
+  --font-poppins: 'var(--font-poppins)',
+  --font-roboto: 'var(--font-roboto)',
+} 
+
+
+/*
+  ==========================================================================
+  Global Body Styles
+  ==========================================================================
+*/
+body {
+    font-family: var(--font-poppins);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }

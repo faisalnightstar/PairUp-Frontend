@@ -49,7 +49,7 @@ const UserProfile = () => {
     if (error)
         return (
             <p className="text-red-500 center mt-36">
-                Oops something went wrong {error}
+                Oops something went wrong {error?.message || "Error"}
             </p>
         );
 
@@ -66,7 +66,7 @@ const UserProfile = () => {
                                 {isAuthenticated && (
                                     <Link
                                         to={{
-                                            pathname: "/edit-profile",
+                                            pathname: "/profile/edit",
                                             state: { userData: user },
                                         }}
                                         className="bg-button-color py-2 px-4 rounded-full  hover:cursor-pointer hover:bg-button-color-hover text-white  text-xs"
@@ -75,7 +75,11 @@ const UserProfile = () => {
                                     </Link>
                                 )}
                             </div>
-                            {error && <p className="text-red-500">{error}</p>}
+                            {error && (
+                                <p className="text-red-500">
+                                    {error.message || "An error occurred"}
+                                </p>
+                            )}
                             {isAuthenticated && (
                                 <YourProfile
                                     user={user}

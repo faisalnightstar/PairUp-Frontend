@@ -6,7 +6,7 @@ import { FaIndianRupeeSign, FaLocationDot } from "react-icons/fa6";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { createTrip } from "../../features/trip/tripSlice";
-import { LocationContext } from "../../components/LocationProvider";
+import { LocationContext } from "../../components/LocationProvider2";
 
 const TripForm = () => {
     const navigate = useNavigate();
@@ -261,7 +261,7 @@ const TripForm = () => {
                                     required: "End date is required",
                                     validate: (value) =>
                                         new Date(value) >=
-                                            new Date(startDateValue) ||
+                                        new Date(startDateValue) ||
                                         "End Date cannot be before Start Date",
                                 })}
                                 min={
@@ -431,9 +431,8 @@ const TripForm = () => {
                     <button
                         disabled={isSubmitting || !isValid}
                         type="submit"
-                        className={`bg-button-color w-full px-8 py-3 shadow-black shadow-sm rounded-full text-white text-xl hover:cursor-pointer hover:bg-button-color-hover ${
-                            isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-                        }`}
+                        className={`bg-button-color w-full px-8 py-3 shadow-black shadow-sm rounded-full text-white text-xl hover:cursor-pointer hover:bg-button-color-hover ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                            }`}
                     >
                         {isSubmitting ? "Submitting" : "Post Your Trip"}
                     </button>

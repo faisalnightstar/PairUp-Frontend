@@ -3,13 +3,12 @@ import { useParams } from "react-router-dom";
 
 import React, { useEffect, useState } from "react";
 import UserDetails from "./UserDetails";
-import UserTripsDetails from "./UserTripsDetails";
 import UserReviewsDeatils from "./UserReviewsDeatils";
-import Navbar from "../../components/Navbar/Navbar";
+
 import axios from "axios";
 import YourProfile from "./YourProfile";
 import NullTrips from "./NullTrips";
-import Loader from "../../components/loader/Loader";
+import { Loader } from "../../components";
 
 const ViewOtherUserDetails = () => {
     const { username } = useParams();
@@ -138,8 +137,6 @@ const ViewOtherUserDetails = () => {
                 ) : (
                     <Loader />
                 )}
-
-                <Navbar />
             </div>
         </>
     );

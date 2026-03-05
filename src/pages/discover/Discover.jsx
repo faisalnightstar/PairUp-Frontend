@@ -19,7 +19,8 @@ const Discover = () => {
     const dispatch = useDispatch();
     //const { lat, lng } = useSelector((state) => state.location);
     //console.log("In discover page lat: ", lat, "lng: ", lng);
-    const { location, handleError } = useContext(LocationContext);
+    // const { location, error: locationError } = useContext(LocationContext);
+    const { location, error: locationError } = useContext(LocationContext);
     //const { latitude, longitude } = location;
     //console.log("location in discover: ", location, handleError);
     //console.log("latitude: ", latitude, "longitude: ", longitude);
@@ -28,11 +29,17 @@ const Discover = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            if (locationError) {
+                alert(
+                    `${locationError}. Please allow location access, we don't store your location.`
+                );
+                return <p className="text-red-500">Location not found.</p>;
+            }
             if (!trip || trip.length === 0) {
-                const response = dispatch(
+                const response = await dispatch(
                     allTrips({
-                        lat: location.latitude,
-                        lng: location.longitude,
+                        lat: location?.latitude,
+                        lng: location?.longitude,
                         maxDistance: 1400000,
                     })
                 );
@@ -41,10 +48,30 @@ const Discover = () => {
         };
 
         fetchData();
-    }, [dispatch, trip]);
+    }, [
+        dispatch,
+        trip,
+        location?.latitude,
+        location?.longitude,
+        location,
+        locationError,
+    ]);
+
+    if (locationError) {
+        return (
+            <p className="text-red-500 mt-36 text-center">
+                Location not found.
+            </p>
+        );
+    }
 
     if (loading) return <Loader />;
-    if (error) return <p className="text-red-500">Error: {error}</p>;
+    if (error)
+        return (
+            <p className="text-red-500">
+                Error: {error.message || "An error occurred"}
+            </p>
+        );
 
     if (trip.length === 0 || trip.length == undefined) return <Loader />;
     return (

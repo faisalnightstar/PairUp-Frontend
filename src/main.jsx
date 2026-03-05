@@ -1,141 +1,165 @@
-import "../axiosConfig.js";
-import { StrictMode } from "react";
+import React, { lazy, Suspense } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import store, { persistor } from "./store/store.js";
-import "./index.css";
+import store from "./store/store.js";
 import App from "./App.jsx";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-import { lazy, Suspense } from "react";
-
-const Discover = lazy(() => import("./pages/discover/Discover"));
-const Home = lazy(() => import("./pages/home/Home"));
-const LoginPage = lazy(() => import("./pages/auth/LoginForm.jsx"));
-const MessagePage = lazy(() => import("./pages/message/MessagePage.jsx"));
-const ProfilesDetails = lazy(() => import("./pages/profile/ProfilesDetails"));
-const RegisterPage = lazy(() => import("./pages/auth/RegisterPage"));
-const TripForm = lazy(() => import("./pages/Post/TripForm"));
-const UserProfile = lazy(() => import("./pages/users/UserProfile"));
-const UpdateProfilePicture = lazy(
-    () => import("./pages/users/UpdateProfilePicture")
-);
-const GetStarted = lazy(() => import("./pages/getStarted/GetStarted"));
-const EditProfile = lazy(() => import("./pages/users/EditProfile"));
-const ViewPostDetails = lazy(
-    () => import("./pages/viewDeatails/trip/ViewPostDetails")
-);
-const ViewOtherUserDetails = lazy(
-    () => import("./pages/users/ViewOtherUserDetails.jsx")
-);
-const SavedTrip = lazy(() => import("./pages/savedTrips/SavedTrip.jsx"));
-import ProtectedRoute from "./components/ProtectedRoute.jsx";
-//import LocationProvider from "./components/LocationProvider2.jsx";
-import { LocationProvider } from "./components/LocationProvider.jsx";
-import { meetingPoint } from "./pages/viewDeatails/trip/DetailSection.jsx";
+import { Loader } from "./components/index.js";
+import ErrorBoundary from "./components/ErrorBoundary.jsx";
+import ErrorFallbackComponent from "./components/ErrorFallbackComponent.jsx";
+import NotFoundPage from "./components/NotFoundPage.jsx";
+import { LocationProvider } from "./components/LocationProvider2.jsx";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { Loader } from "./components/index.js";
+import "./index.css";
+import "../axiosConfig.js";
+import { ThemeProvider } from "./components/theme/ThemeProvider.jsx";
+
+// --- Lazy-loaded Route Components ---
+const Home = lazy(() => import("./pages/home/Home"));
+const TripList = lazy(() => import("./pages/discover/Discover")); // Renamed for clarity
+const TripDetails = lazy(
+    () => import("./pages/viewDeatails/trip/ViewPostDetails")
+);
+const NewTripForm = lazy(() => import("./pages/Post/TripForm"));
+const UserProfile = lazy(() => import("./pages/users/UserProfile"));
+const EditProfile = lazy(() => import("./pages/users/EditProfile"));
+const UpdateAvatar = lazy(() => import("./pages/users/UpdateProfilePicture"));
+const OtherUserDetails = lazy(
+    () => import("./pages/users/ViewOtherUserDetails.jsx")
+);
+const SavedTrips = lazy(() => import("./pages/savedTrips/SavedTrip.jsx"));
+const LoginPage = lazy(() => import("./pages/auth/LoginForm.jsx"));
+const RegisterPage = lazy(() => import("./pages/auth/RegisterPage"));
+const EmailVerificationNotice = lazy(
+    () => import("./pages/auth/ EmailVerification.jsx")
+);
+const EmailVerificationPage = lazy(
+    () => import("./pages/auth/EmailVerificationPage.jsx")
+);
+// New component for email verification
+const MessagePage = lazy(() => import("./pages/message/MessagePage.jsx"));
+
+// --- Route Protectors ---
+const AuthProtectedRoute = lazy(
+    () => import("./components/AuthProtectedRoute.jsx")
+);
+const ProtectedRoute = lazy(() => import("./components/ProtectedRoute.jsx"));
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App />,
+        element: (
+            <ErrorBoundary>
+                <App />
+            </ErrorBoundary>
+        ),
+        errorElement: <ErrorFallbackComponent />,
         children: [
+            // --- General Routes ---
+            { index: true, element: <Home /> }, // Home page
             {
-                path: "/",
-                element: <Home />,
-            },
-            {
-                path: "/getstarted",
-                element: <GetStarted />,
+                path: "/login",
+                element: (
+                    // <AuthProtectedRoute>
+                    <LoginPage />
+                    // </AuthProtectedRoute>
+                ),
             },
             {
                 path: "/register",
-                element: <RegisterPage />,
-            },
-            {
-                path: "/login",
-                element: <LoginPage />,
-            },
-
-            {
-                path: "/discover",
-                element: <Discover />,
-            },
-            {
-                path: "/post-trip",
                 element: (
-                    <ProtectedRoute>
-                        <TripForm />
-                    </ProtectedRoute>
+                    // <AuthProtectedRoute>
+                    <RegisterPage />
+                    // </AuthProtectedRoute>
                 ),
             },
             {
-                path: "view-post-details/:tripId",
-                element: <ViewPostDetails />,
+                path: "/check-email-for-verification",
+                element: <EmailVerificationNotice />,
             },
             {
-                path: "/msg",
+                path: "/verify-email/:token",
+                element: <EmailVerificationPage />,
+            },
 
+            // --- Trip Routes (RESTful) ---
+            { path: "/discover", element: <TripList /> },
+            {
+                path: "/trips/new",
                 element: (
-                    <ProtectedRoute>
-                        <MessagePage />,
-                    </ProtectedRoute>
+                    // <ProtectedRoute>
+                    <NewTripForm />
+                    // </ProtectedRoute>
                 ),
             },
+            { path: "/trips/:tripId", element: <TripDetails /> },
+
+            // --- User & Profile Routes (RESTful) ---
             {
                 path: "/profile",
-
                 element: (
-                    <ProtectedRoute>
-                        <UserProfile />,
-                    </ProtectedRoute>
+                    // <ProtectedRoute>
+                    <UserProfile />
+                    //  </ProtectedRoute>
                 ),
             },
             {
-                path: "/update-profile-picture",
-
+                path: "/profile/edit",
                 element: (
-                    <ProtectedRoute>
-                        <UpdateProfilePicture />,
-                    </ProtectedRoute>
+                    //   <ProtectedRoute>
+                    <EditProfile />
+                    // </ProtectedRoute>
                 ),
             },
             {
-                path: "/edit-profile",
-
+                path: "/profile/avatar",
                 element: (
-                    <ProtectedRoute>
-                        <EditProfile />,
-                    </ProtectedRoute>
+                    // <ProtectedRoute>
+                    <UpdateAvatar />
+                    // </ProtectedRoute>
                 ),
             },
+            { path: "/users/:username", element: <OtherUserDetails /> },
+
+            // --- Other Protected Routes ---
             {
-                path: "/user/:username",
-                element: <ViewOtherUserDetails />,
+                path: "/messages",
+                element: (
+                    // <ProtectedRoute>
+                    <MessagePage />
+                    // </ProtectedRoute>
+                ),
             },
             {
                 path: "/saved-trip",
-                element: <SavedTrip />,
+                element: (
+                    // <ProtectedRoute>
+                    <SavedTrips />
+                    // </ProtectedRoute>
+                ),
             },
+
+            // --- Catch-all for 404 Not Found ---
+            { path: "*", element: <NotFoundPage /> },
         ],
     },
 ]);
 
 createRoot(document.getElementById("root")).render(
-    <StrictMode>
-        <Provider store={store}>
-            <PersistGate loading={<Loader />} persistor={persistor}>
+    <React.StrictMode>
+        <ThemeProvider>
+            <Provider store={store}>
                 <LocationProvider>
-                    <Suspense fallback={<Loader />}>
-                        <RouterProvider router={router} />
-                    </Suspense>
+                    <ErrorBoundary>
+                        <Suspense fallback={<Loader />}>
+                            <RouterProvider router={router} />
+                        </Suspense>
+                    </ErrorBoundary>
                     <Analytics />
                     <SpeedInsights />
                 </LocationProvider>
-            </PersistGate>
-        </Provider>
-    </StrictMode>
+            </Provider>
+        </ThemeProvider>
+    </React.StrictMode>
 );

@@ -23,13 +23,13 @@ const Navbar = () => {
         },
         {
             name: "Post",
-            slug: "/post-trip",
+            slug: "/trips/new",
             icon: <IoAddCircle />,
             active: authStatus,
         },
         {
             name: "Message",
-            slug: "/msg",
+            slug: "/messages",
             icon: <FaComments />,
             active: authStatus,
         },

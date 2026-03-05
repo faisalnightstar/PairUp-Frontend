@@ -26,6 +26,23 @@ export const registerUser = createAsyncThunk(
         }
     }
 );
+// Verify email
+export const verifyEmail = createAsyncThunk(
+    "auth/verifyEmail",
+    async (token, { rejectWithValue }) => {
+        try {
+            // Use a GET request and pass the token as part of the URL.
+            // This now matches your backend router's expectation.
+            const response = await axios.get(
+                `${envConfig.BaseUrl}/users/verify-email/${token}`
+            );
+            return response.data;
+        } catch (error) {
+            // Forward the error message from the backend.
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
 
 // Login thunk: credentials { email, username, password }
 export const loginUser = createAsyncThunk(
@@ -54,9 +71,7 @@ export const getCurrentLoggedInUser = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             // The backend endpoint is something like /api/v1/users/me
-            const response = await axios.get(
-                `${envConfig.BaseUrl}/users/current-user`
-            );
+            const response = await axios.get(`${envConfig.BaseUrl}/users/me`);
 
             return response.data.data; // Returns an object like { user: { ... } }
         } catch (error) {
@@ -122,7 +137,7 @@ export const updateUserAvatar = createAsyncThunk(
     async (credentials, { rejectWithValue }) => {
         try {
             const response = await axios.patch(
-                `${envConfig.BaseUrl}/users/update-avatar`,
+                `${envConfig.BaseUrl}/users/me/avatar`,
                 credentials
             );
             return response.data;
@@ -143,7 +158,7 @@ export const updateProfileDetails = createAsyncThunk(
     async (data, { rejectWithValue }) => {
         try {
             const response = await axios.patch(
-                `${envConfig.BaseUrl}/users/update-account`,
+                `${envConfig.BaseUrl}/users/me`,
                 data
             );
             return response.data;
@@ -248,6 +263,21 @@ const authSlice = createSlice({
             .addCase(registerUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload || "Registration failed";
+            })
+
+            // verify e-mail
+            .addCase(verifyEmail.pending, (state) => {
+                // You can optionally handle a loading state for verification here
+                state.loading = true;
+            })
+            .addCase(verifyEmail.fulfilled, (state, action) => {
+                state.loading = false;
+                // You might want to update some state here, e.g., show a global "verified" message
+            })
+            .addCase(verifyEmail.rejected, (state, action) => {
+                state.loading = false;
+                // Handle any errors from verification if necessary
+                state.error = action.payload;
             })
 
             // --- Refresh Access Token ---

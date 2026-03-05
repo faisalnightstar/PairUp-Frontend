@@ -63,14 +63,14 @@ const TripPostCard = ({ tripItem }) => {
             ? "/discover"
             : "";
 
-        navigate(`${basePath}/view-post-details/${tripId}`);
+        navigate(`${basePath}/trips/${tripId}`);
     };
     // const handleUserClick = (tripId) => {
-    //     navigate(`view-post-details/${tripId}`);
+    //     navigate(`trips/${tripId}`);
     // };
 
     return (
-        <div className=" bg-white flex flex-col items-center justify-center w-[100%] rounded-xl shadow-sm p-2 hover:border-2 hover:border-button-color h-96 transition-all duration-100 ease-linear">
+        <div className=" bg-background dark:bg-background-dark flex flex-col items-center justify-center w-[100%] rounded-xl shadow-sm shadow-background-dark dark:shadow-background p-2 hover:border-2 hover:border-primary h-96 transition-all duration-100 ease-linear">
             <img
                 src={
                     tripItem?.coverImage
@@ -80,31 +80,32 @@ const TripPostCard = ({ tripItem }) => {
                 alt="cover image"
                 className="w-fit h-48 object-cover rounded-lg mb-4"
             />
+            <h1 className="font-tesla">Hello</h1>
             <div className="space-y-3">
                 <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600 flex items-center">
+                    <span className=" flex items-center">
                         <FaCalendarAlt className="mr-2 text-custom" />
                         {tripStartDate(tripItem?.startDate)} -{" "}
                         {tripEndDate(tripItem?.endDate)}
                     </span>
-                    <span className="text-gray-600 flex items-center">
+                    <span className=" flex items-center">
                         <FaUsers className="mr-2 text-custom" />
                         {tripItem?.participantCount} Joined
                     </span>
                 </div>
                 <div className="flex items-center justify-between mb-4">
                     <div>
-                        <h3 className="text-lg flex flex-row items-center font-semibold text-header-color mb-1">
-                            <FaMapMarkerAlt className="mr-2  text-md center text-header-color" />
+                        <h3 className="text-lg flex flex-row items-center font-semibold  mb-1">
+                            <FaMapMarkerAlt className="mr-2  text-md center " />
                             {tripItem?.destination}
                         </h3>
-                        <p className="text-gray-600 items-center text-xs w-64 truncate">
+                        <p className=" items-center text-xs w-64 truncate">
                             {tripItem?.description}
                         </p>
                     </div>
                     <button
                         onClick={savedTrips}
-                        className={`!rounded-button p-2 hover:text-button-color hover:cursor-pointer ${isSaved ? "text-button-color" : "text-fonts-color"}`}
+                        className={`!rounded-button p-2 hover:text-button-color hover:cursor-pointer ${isSaved ? "text-primary" : "text-fonts-color"}`}
                         title={isSaved ? "Trip saved" : "Save trip"}
                         aria-pressed={isSaved}
                     >
@@ -112,7 +113,7 @@ const TripPostCard = ({ tripItem }) => {
                     </button>
                 </div>
                 <button
-                    className="rounded-full w-full bg-button-color font-roboto text-white py-2 px-4 hover:bg-button-color/90 hover:cursor-pointer"
+                    className="rounded-full  w-full bg-primary font-roboto text-on-primary py-2 px-4 hover:bg-primary/90 hover:cursor-pointer"
                     onClick={() => handleUserClick(tripItem?._id)}
                 >
                     View Details

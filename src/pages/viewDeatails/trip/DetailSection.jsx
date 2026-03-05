@@ -158,17 +158,17 @@ const DetailSection = () => {
 
 export default DetailSection;
 
-export const meetingPoint = async (lat, lng) => {
-    try {
-        const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
-        );
-        const data = await response.json();
-        // Extract a human-readable address from the response.
-        // data.display_name often provides a full address string.
+// export const meetingPoint = async (lat, lng) => {
+//     try {
+//         const response = await fetch(
+//             `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
+//         );
+//         const data = await response.json();
+//         // Extract a human-readable address from the response.
+//         // data.display_name often provides a full address string.
 
-        return data.display_name;
-    } catch (error) {
-        console.error("Error fetching address:", error);
-    }
-};
+//         return data.display_name;
+//     } catch (error) {
+//         console.error("Error fetching address:", error);
+//     }
+// };

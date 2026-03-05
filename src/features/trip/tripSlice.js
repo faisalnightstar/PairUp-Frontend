@@ -9,6 +9,7 @@ const initialState = {
     tripHistories: [],
     loading: false,
     error: null,
+    errorResponse: [],
 };
 
 export const createTrip = createAsyncThunk(
@@ -16,7 +17,7 @@ export const createTrip = createAsyncThunk(
     async (tripData, { rejectWithValue }) => {
         try {
             const response = await axios.post(
-                `${envConfig.BaseUrl}/users/trips/post-trip`,
+                `${envConfig.BaseUrl}/trips`,
                 tripData
             );
             return response.data;
@@ -37,12 +38,10 @@ export const allTrips = createAsyncThunk(
             console.log(
                 ` In allTrips thunk lat: ${lat} lng: ${lng} maxDistance: ${maxDistance}`
             );
-            const response = await axios.get(
-                `${envConfig.BaseUrl}/users/trips/all-trips`,
-                {
-                    params: { lat, lng, maxDistance },
-                }
-            );
+            const response = await axios.get(`${envConfig.BaseUrl}/trips`, {
+                params: { lat, lng, maxDistance },
+            });
+            console.log("response in allTrips thunk: ", response);
             return response.data.data;
         } catch (error) {
             const errorMessage = error.response?.data?.message || 
@@ -59,7 +58,7 @@ export const singleTrip = createAsyncThunk(
     async (tripId, { rejectWithValue }) => {
         try {
             const response = await axios.get(
-                `${envConfig.BaseUrl}/users/trips/view-trip/${tripId}`
+                `${envConfig.BaseUrl}/trips/${tripId}`
             );
             return response.data.data;
         } catch (error) {
@@ -77,7 +76,7 @@ export const joinTrip = createAsyncThunk(
     async (tripId, { rejectWithValue }) => {
         try {
             const response = await axios.post(
-                `${envConfig.BaseUrl}/users/trips/join-trip/${tripId}`
+                `${envConfig.BaseUrl}/trips/${tripId}/join`
             );
 
             return response.data.data;
@@ -112,7 +111,7 @@ export const tripsHistory = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await axios.get(
-                `${envConfig.BaseUrl}/users/trips/trips-history/${tripId}`
+                `${envConfig.BaseUrl}/users/me/trips/${tripId}`
             );
             return response;
         } catch (error) {
@@ -151,10 +150,11 @@ const tripSlice = createSlice({
             .addCase(allTrips.fulfilled, (state, action) => {
                 state.loading = false;
                 state.status = true;
-                state.trip = action.payload; // Corrected: Use action.payload (response.data)
+                state.trip = action.payload;
             })
             .addCase(allTrips.rejected, (state, action) => {
                 state.loading = false;
+                state.errorResponse = action.payload;
                 state.error = action.payload || "Something went wrong";
             })
             .addCase(singleTrip.pending, (state) => {
@@ -182,19 +182,19 @@ const tripSlice = createSlice({
             .addCase(joinTrip.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload || "Something went wrong";
-            })
-            .addCase(tripsHistory.pending, (state) => {
-                state.loading = true;
-                state.error = null;
-            })
-            .addCase(tripsHistory.fulfilled, (state, action) => {
-                state.loading = false;
-                state.tripHistories = action.payload;
-            })
-            .addCase(tripsHistory.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload || "Something went wrong";
             });
+        // .addCase(tripsHistory.pending, (state) => {
+        //     state.loading = true;
+        //     state.error = null;
+        // })
+        // .addCase(tripsHistory.fulfilled, (state, action) => {
+        //     state.loading = false;
+        //     state.tripHistories = action.payload;
+        // })
+        // .addCase(tripsHistory.rejected, (state, action) => {
+        //     state.loading = false;
+        //     state.error = action.payload || "Something went wrong";
+        // });
     },
 });
 

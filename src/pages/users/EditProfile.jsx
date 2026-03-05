@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { CheckBox, Input } from "../../components";
+import { CheckBox, Input, Loader } from "../../components";
 import { useForm, FormProvider } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { updateProfileDetails } from "../../features/auth/authSlice";
@@ -22,9 +22,6 @@ const EditProfile = () => {
             navigate("/login");
         }
     }, [isAuthenticated, navigate]);
-
-    if (loading) return <Loader />;
-    if (!user) return <p>No user data found.</p>;
 
     //console.log("edit user: ", user);
 
@@ -88,6 +85,9 @@ const EditProfile = () => {
             alert("An error occurred during update. Please try again later.");
         }
     };
+
+    if (loading) return <Loader />;
+    if (!user) return <p>No user data found.</p>;
     return (
         <main>
             <div className="max-w-md mx-auto space-y-12 mt-20 bg-white p-8 rounded-lg shadow-md">

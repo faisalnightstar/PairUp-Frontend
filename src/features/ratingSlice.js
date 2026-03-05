@@ -13,7 +13,7 @@ export const fetchRating = createAsyncThunk(
     async (revieweeId, { rejectWithValue, getState }) => {
         try {
             const response = await axios.get(
-                `${envConfig.BaseUrl}/users/all-ratings/${revieweeId}`
+                `${envConfig.BaseUrl}/reviews/user/${revieweeId}/ratings`
             );
             return response.data.data;
         } catch (error) {

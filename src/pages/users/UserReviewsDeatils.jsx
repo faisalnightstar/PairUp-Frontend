@@ -26,7 +26,7 @@ const UserReviewsDeatils = ({ userDetail, joinedDate }) => {
     }, [dispatch, navigate]);
 
     if (loading) return <Loader />;
-    if (error) return <p>Error: {error}</p>;
+    if (error) return <p>Error: {error.messsage || "An error occurred"}</p>;
 
     const userLocale = navigator.language || "en-US"; // Auto-detect user locale
 

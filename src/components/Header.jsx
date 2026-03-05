@@ -4,12 +4,15 @@ import { useSelector } from "react-redux";
 import LogoutBtn from "./LogoutBtn";
 import LoginBtn from "./LoginBtn";
 import { FaOpencart } from "react-icons/fa6";
+import { FaMoon, FaSun } from "react-icons/fa";
+import { useTheme } from "../hooks/useTheme";
 
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
     const navigate = useNavigate();
     const [showSearch, setShowSearch] = useState(false);
+    const { theme, toggleTheme } = useTheme();
 
     const { isAuthenticated } = useSelector((state) => state.auth);
     console.log("isAuthenticated: ", isAuthenticated);
@@ -40,10 +43,15 @@ const Header = () => {
                             alt="Logo"
                             className="h-22 w-auto hidden md:block"
                         />
-                        <img
+                        {/* <img
                             src="https://res.cloudinary.com/pairup-connect/image/upload/v1742051927/pairup/public/ei6xpilmkej0n9bsjusi.png"
                             alt="Logo"
                             className="h-14 w-auto hidden md:block"
+                        /> */}
+                        <img
+                            className="h-8 w-auto hidden md:block"
+                            src="/logo-black.jpeg"
+                            alt=""
                         />
                     </div>
                     {/* Search & Filter Buttons (Right on small screens) */}
@@ -56,6 +64,17 @@ const Header = () => {
                                 <FaOpencart />
                             </button>
                         </div>
+                        <button
+                            onClick={toggleTheme}
+                            className="bg-background text-text-primary p-2 rounded-full hover:bg-secondary"
+                            aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+                        >
+                            {theme === "light" ? (
+                                <FaMoon size={18} />
+                            ) : (
+                                <FaSun size={18} />
+                            )}
+                        </button>
                         {/* Search Button */}
                         <button
                             className="bg-gray-100 cursor-pointer p-2 rounded-full"

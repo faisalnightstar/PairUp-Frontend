@@ -39,9 +39,9 @@ export const fetchReviews = createAsyncThunk(
         try {
             let url;
             if (revieweeId) {
-                url = `${envConfig.BaseUrl}/users/all-reviews/${revieweeId}`;
+                url = `${envConfig.BaseUrl}/reviews/user/${revieweeId}`;
             } else {
-                url = `${envConfig.BaseUrl}/users/all-reviews`;
+                url = `${envConfig.BaseUrl}/users/me/reviews`;
             }
             const response = await axios.get(url);
             return response.data.data;

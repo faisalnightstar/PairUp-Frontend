@@ -32,10 +32,7 @@ const YourProfile = ({ user, joinedDate, isCurrentUser }) => {
                         <FaUserCircle className="absolute rounded-full w-20 h-20 md:w-24 md:h-24 text-paragraph-color" />
                     )}
                     {isCurrentUser && (
-                        <Link
-                            to="/update-profile-picture"
-                            className=" w-23 h-26"
-                        >
+                        <Link to="/profile/avatar" className=" w-23 h-26">
                             <FaCamera className="absolute w-6 h-4 bg-black rounded-full text-white  bottom-1 right-1" />
                         </Link>
                     )}
@@ -77,7 +74,10 @@ const YourProfile = ({ user, joinedDate, isCurrentUser }) => {
                         <p className="flex flex-row  font-normal items-center font-roboto   space-x-2 text-sm sm:space-x-0 md:space-x-2">
                             <FaRoute fill="#F79489" />
                             28{" "}
-                            <span className="text-profile-details ">trips</span>
+                            <span className="text-profile-details ">
+                                {" "}
+                                trips
+                            </span>
                         </p>
                     </div>
                 </div>

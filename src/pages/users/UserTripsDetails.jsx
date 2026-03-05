@@ -23,7 +23,7 @@ const UserTripsDetails = ({ userId }) => {
 
     if (loading) return <p>Loading...</p>;
     if (!trips || trips?.length === 0) return <NullTrips />;
-    if (error) return <p>Error: {error}</p>;
+    if (error) return <p>Error: {error.message || "An error occurred"}</p>;
 
     return (
         <main className="flex-grow mt-1 max-w-8xl mx-auto ">
@@ -34,11 +34,9 @@ const UserTripsDetails = ({ userId }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
                 {/* Trip Card 1 */}
                 {trips &&
-                    trips.map((trip) => (
+                    trips?.map((trip) => (
                         <div
-                            onClick={() =>
-                                navigate(`/view-post-details/${trip?._id}`)
-                            }
+                            onClick={() => navigate(`/trips/${trip?._id}`)}
                             key={trip?._id}
                             className=" flex flex-col cursor-pointer flex-wrap content-start shadow-sm  p-4 rounded-sm"
                         >

@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { lazy, Suspense, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Outlet } from "react-router-dom";
-import { Header, Navbar } from "./components/index.js";
-import { 
-    getCurrentLoggedInUser, 
-    refreshAccessToken 
-} from "./features/auth/authSlice.js";
-import { SplashScreen } from "./pages/index.js";
+import { Header, Loader, Navbar } from "./components/index.js";
+import { getCurrentLoggedInUser } from "./features/auth/authSlice.js";
+const SplashScreen = lazy(() => import("./pages/getstarted/SplashScreen"));
+import { Toaster } from "react-hot-toast";
 
-function App() {
+const App = () => {
     const [showSplash, setShowSplash] = useState(true);
     const dispatch = useDispatch();
     const { isAuthenticated, initialized } = useSelector((state) => state.auth);
@@ -50,7 +48,11 @@ function App() {
     }, [dispatch, initialized]);
 
     if (showSplash) {
-        return <SplashScreen />; // Render the splash screen component
+        return (
+            <Suspense fallback={<Loader />}>
+                <SplashScreen />
+            </Suspense>
+        ); // Render the splash screen component
     }
 
     return (
@@ -61,9 +63,10 @@ function App() {
                     <Outlet />
                 </main>
                 <Navbar />
+                <Toaster />
             </div>
         </>
     );
-}
+};
 
 export default App;

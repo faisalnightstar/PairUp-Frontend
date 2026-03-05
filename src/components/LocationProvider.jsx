@@ -12,6 +12,7 @@ export const LocationProvider = ({ children }) => {
     const [address, setAddress] = useState(() => {
         return localStorage.getItem("userAddress") || null;
     });
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         // Only get location if we don't have it stored
@@ -45,12 +46,14 @@ export const LocationProvider = ({ children }) => {
                 setAddress(userAddress);
                 localStorage.setItem("userAddress", userAddress);
             } catch (error) {
+                setError(error.message);
                 console.error("Error fetching address:", error);
                 setAddress("Unable to get address");
             }
         };
 
         const handleError = (error) => {
+            setError(error.message);
             console.error("Error getting location:", error);
             // Set default values on error
             setLocation(null);
@@ -71,7 +74,7 @@ export const LocationProvider = ({ children }) => {
     }, [location]);
 
     return (
-        <LocationContext.Provider value={{ location, address }}>
+        <LocationContext.Provider value={{ location, address, error }}>
             {children}
         </LocationContext.Provider>
     );

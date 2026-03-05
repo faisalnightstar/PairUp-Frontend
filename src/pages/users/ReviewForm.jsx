@@ -74,7 +74,9 @@ function ReviewForm({ revieweeId }) {
             className="flex flex-col  w-full space-y-4"
             onSubmit={handleSubmit(onSubmit)}
         >
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && (
+                <p style={{ color: "red" }}>{error.message || "Error"}</p>
+            )}
             <div className="form-group  flex flex-col">
                 <label htmlFor="rating">Rating:</label>
                 <Controller

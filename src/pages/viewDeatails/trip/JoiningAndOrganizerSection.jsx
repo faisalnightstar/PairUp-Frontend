@@ -9,6 +9,7 @@ const JoiningAndOrganizerSection = ({ tripEndDate }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { selectedTrip } = useSelector((state) => state.trip);
+    const { isAuthenticated } = useSelector((state) => state.auth);
     const [isJoined, setIsJoined] = useState(false);
     const [isOrganizer, setIsOrganizer] = useState(false);
     let organizerId = selectedTrip.organizer._id;
@@ -28,6 +29,16 @@ const JoiningAndOrganizerSection = ({ tripEndDate }) => {
     //console.log("user in JoiningAndOrganizerSection: ", user);
 
     const handleJoinTrip = useCallback(async () => {
+        if (!isAuthenticated) {
+            alert("Please log in to join the trip.");
+            navigate("/login");
+            return;
+        }
+
+        if (isJoined) {
+            alert("You have already joined this trip.");
+            return;
+        }
         try {
             await dispatch(joinTrip(selectedTrip._id)).unwrap();
             setIsJoined(true);
@@ -40,7 +51,7 @@ const JoiningAndOrganizerSection = ({ tripEndDate }) => {
                 alert("Failed to join trip. Please try again.");
             }
         }
-    }, [dispatch, selectedTrip._id]);
+    }, [dispatch, selectedTrip._id, isJoined, isAuthenticated, navigate]);
 
     useEffect(() => {
         if (selectedTrip && user) {
