@@ -32,11 +32,11 @@ const renderWithProviders = (ui, { locationContextValue } = {}) => {
 };
 
 describe('Home', () => {
-    it('renders MainHomeComponent when location is available', () => {
+    it('renders MainHomeComponent when location is available', async () => {
         renderWithProviders(<Home />, {
             locationContextValue: { location: { lat: 1, lng: 2 }, error: null },
         });
-        expect(screen.getByTestId('main-home-component')).toBeInTheDocument();
+        expect(await screen.findByTestId('main-home-component')).toBeInTheDocument();
     });
 
     it('renders LocationFallback when location is not available', () => {

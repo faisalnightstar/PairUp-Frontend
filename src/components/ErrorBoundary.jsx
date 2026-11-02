@@ -1,6 +1,7 @@
 // src/components/ErrorBoundary.jsx
 
 import React from "react";
+import { trackEvent, AnalyticsEvents } from "../utils/analytics.js";
 
 class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -14,9 +15,15 @@ class ErrorBoundary extends React.Component {
     }
 
     componentDidCatch(error, errorInfo) {
-        // Log error details (optional: send to Sentry or your logging service)
+        // Log error details
         console.error("ErrorBoundary caught an error:", error, errorInfo);
         this.setState({ error, errorInfo });
+
+        // Dispatch crash telemetry to Vercel Analytics
+        trackEvent(AnalyticsEvents.APP_ERROR, {
+            message: (error?.message || "Unknown error").slice(0, 200),
+            componentStack: (errorInfo?.componentStack || "").slice(0, 200),
+        });
     }
 
     render() {

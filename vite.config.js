@@ -9,7 +9,7 @@ export default defineConfig({
         react(),
         tailwindcss(),
         visualizer({
-            open: true, // auto-open in browser after build
+            open: Boolean(process.env.OPEN_REPORT), // auto-open in browser only if OPEN_REPORT is set
             filename: "bundle-report.html", // output file
             gzipSize: true, // show gzip sizes
             brotliSize: true, // show brotli sizes

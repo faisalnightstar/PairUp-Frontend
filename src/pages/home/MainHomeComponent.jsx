@@ -104,7 +104,7 @@ const MainHomeComponent = ({ location }) => {
     if (error)
         return (
             <p className="text-red-500 text-center">
-                Error: {error?.message || "Unknown error occurred."}
+                Error: {typeof error === "string" ? error : error?.message || "Unknown error occurred."}
             </p>
         );
     if (!trip || trip.length === 0) {
@@ -141,7 +141,7 @@ const MainHomeComponent = ({ location }) => {
                         }
                     />
                 </div>
-                <div className="bg-red-600 rounded-xl shadow p-4 gap-4 flex flex-col">
+                <div className="text-black rounded-xl shadow p-4 gap-4 flex flex-col">
                     <Categories />
                     <Suspense fallback={<Loader />}>
                         <TripsCategories trip={trip} />

@@ -1,14 +1,17 @@
 import React, { lazy, Suspense, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Outlet } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Outlet, useLocation } from "react-router-dom";
 import { Header, Loader, Navbar } from "./components/index.js";
-import { getCurrentLoggedInUser } from "./features/auth/authSlice.js";
-const SplashScreen = lazy(() => import("./pages/getstarted/SplashScreen"));
+import { getCurrentLoggedInUser, refreshAccessToken } from "./features/auth/authSlice.js";
+const SplashScreen = lazy(() => import("./pages/getStarted/SplashScreen"));
 import { Toaster } from "react-hot-toast";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 const App = () => {
     const [showSplash, setShowSplash] = useState(true);
     const dispatch = useDispatch();
+    const location = useLocation();
     const { isAuthenticated, initialized } = useSelector((state) => state.auth);
 
     useEffect(() => {
@@ -47,24 +50,24 @@ const App = () => {
         }
     }, [dispatch, initialized]);
 
-    if (showSplash) {
-        return (
-            <Suspense fallback={<Loader />}>
-                <SplashScreen />
-            </Suspense>
-        ); // Render the splash screen component
-    }
-
     return (
         <>
-            <div>
-                <Header />
-                <main>
-                    <Outlet />
-                </main>
-                <Navbar />
-                <Toaster />
-            </div>
+            {showSplash ? (
+                <Suspense fallback={<Loader />}>
+                    <SplashScreen />
+                </Suspense>
+            ) : (
+                <div>
+                    <Header />
+                    <main>
+                        <Outlet />
+                    </main>
+                    <Navbar />
+                    <Toaster />
+                </div>
+            )}
+            <Analytics debug={import.meta.env.DEV} />
+            <SpeedInsights route={location.pathname} />
         </>
     );
 };

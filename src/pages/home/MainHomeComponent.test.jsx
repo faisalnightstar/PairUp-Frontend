@@ -6,8 +6,14 @@ import MainHomeComponent from './MainHomeComponent';
 import { LocationContext } from '../../components/LocationProvider2';
 
 // Mocks
-vi.mock('../../components/Loader', () => ({ default: () => <div data-testid="loader">Loader</div> }));
-vi.mock('../../components/Categories', () => ({ default: () => <div data-testid="categories">Categories</div> }));
+vi.mock('../../components', () => ({
+    Loader: () => <div data-testid="loader">Loader</div>,
+    Categories: () => <div data-testid="categories">Categories</div>,
+    Button: ({ children, onClick, className }) => <button onClick={onClick} className={className}>{children}</button>,
+}));
+vi.mock('../../features/trip/tripSlice', () => ({
+    allTrips: vi.fn(() => () => Promise.resolve({ payload: null })),
+}));
 vi.mock('../../components/googlemaps/AddressAutocomplete', () => ({
     default: ({ isOpen, onClose, onSelectAddress }) =>
         isOpen ? (
@@ -90,7 +96,7 @@ describe('MainHomeComponent', () => {
         expect(screen.getByText(/No trips found near your location/)).toBeInTheDocument();
     });
 
-    it('renders trips and TripPostCard when trip data is present', () => {
+    it('renders trips and TripPostCard when trip data is present', async () => {
         renderWithProviders(<MainHomeComponent location={{ latitude: 0, longitude: 0 }} />, {
             reduxState: {
                 trip: {
@@ -102,7 +108,7 @@ describe('MainHomeComponent', () => {
             },
             locationContextValue: { address: 'Test Address' },
         });
-        expect(screen.getAllByTestId('trip-post-card')).toHaveLength(2);
+        expect(await screen.findAllByTestId('trip-post-card')).toHaveLength(2);
     });
 
     it('renders Categories and TripsCategories', () => {

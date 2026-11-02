@@ -9,8 +9,6 @@ import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import ErrorFallbackComponent from "./components/ErrorFallbackComponent.jsx";
 import NotFoundPage from "./components/NotFoundPage.jsx";
 import { LocationProvider } from "./components/LocationProvider2.jsx";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/react";
 import "./index.css";
 import "../axiosConfig.js";
 import { ThemeProvider } from "./components/theme/ThemeProvider.jsx";
@@ -31,8 +29,9 @@ const OtherUserDetails = lazy(
 const SavedTrips = lazy(() => import("./pages/savedTrips/SavedTrip.jsx"));
 const LoginPage = lazy(() => import("./pages/auth/LoginForm.jsx"));
 const RegisterPage = lazy(() => import("./pages/auth/RegisterPage"));
+const GetStarted = lazy(() => import("./pages/getStarted/GetStarted.jsx"));
 const EmailVerificationNotice = lazy(
-    () => import("./pages/auth/ EmailVerification.jsx")
+    () => import("./pages/auth/EmailVerification.jsx")
 );
 const EmailVerificationPage = lazy(
     () => import("./pages/auth/EmailVerificationPage.jsx")
@@ -58,6 +57,7 @@ const router = createBrowserRouter([
         children: [
             // --- General Routes ---
             { index: true, element: <Home /> }, // Home page
+            { path: "/getstarted", element: <GetStarted /> },
             {
                 path: "/login",
                 element: (
@@ -156,8 +156,6 @@ createRoot(document.getElementById("root")).render(
                             <RouterProvider router={router} />
                         </Suspense>
                     </ErrorBoundary>
-                    <Analytics />
-                    <SpeedInsights />
                 </LocationProvider>
             </Provider>
         </ThemeProvider>
