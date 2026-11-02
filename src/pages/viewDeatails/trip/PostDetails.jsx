@@ -66,7 +66,7 @@ const PostDetails = () => {
         const fetchTripDetails = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:8001/api/v1/users/trips/view-trip/${tripId}`
+                    `${envConfig.BaseUrl}/trips/${tripId}`
                 );
 
                 const tripData = response.data.data;
@@ -127,7 +127,7 @@ const PostDetails = () => {
         try {
             const token = localStorage.getItem("accessToken");
             const response = await axios.post(
-                `http://localhost:8001/api/v1/users/trips/join-trip/${tripDetail._id}`,
+                `${envConfig.BaseUrl}/trips/${tripDetail._id}/join`,
                 { userId: currentUser._id },
                 {
                     headers: { Authorization: `Bearer ${token}` },
