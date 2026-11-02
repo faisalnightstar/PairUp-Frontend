@@ -32,7 +32,7 @@ const ViewOtherUserDetails = () => {
         const fetchUser = async () => {
             try {
                 const response = await axios.get(
-                    `${envConfig.API_URL}/users/find/find-user/${username}`
+                    `${envConfig.BaseUrl}/users/find/find-user/${username}`
                 );
                 setUser(response.data.data);
             } catch (error) {

@@ -31,7 +31,7 @@ const PostDetails = () => {
         const fetchUserAndCheckStatus = async () => {
             try {
                 const response = await axios.get(
-                    `${envConfig.API_URL}/users/current-user`,
+                    `${envConfig.BaseUrl}/users/current-user`,
                     {
                         headers: { Authorization: `Bearer ${accessToken}` },
                         withCredentials: true,
